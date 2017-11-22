@@ -3,7 +3,7 @@ package net.lulu.client;
 import java.io.*;
 import java.net.Socket;
 
-public class Client {
+public class WeatherClient {
 
     public static void main(String[] args) throws IOException {
         String hostName = args[0];
@@ -20,13 +20,13 @@ public class Client {
             BufferedReader stdIn = new BufferedReader(new InputStreamReader(System.in));
 
             while((fromServer = in.readLine()) != null) {
-                System.out.println("Server: " + fromServer);
+                System.out.println("WeatherServer: " + fromServer);
                 if(fromServer.equals("bye"))
                     break;
 
                 fromUser = stdIn.readLine();
                 if (fromUser != null) {
-                    System.out.println("Client: " + fromUser);
+                    System.out.println("WeatherClient: " + fromUser);
                     out.println(fromUser);
                 }
             }

@@ -7,7 +7,7 @@ import java.io.PrintWriter;
 import java.net.ServerSocket;
 import java.net.Socket;
 
-public class Server {
+public class WeatherServer {
 
     public static void main (String args[]) throws IOException {
         int portNumber = Integer.parseInt(args[0]);
@@ -21,12 +21,13 @@ public class Server {
                 )
         ){
             String inputLine, outputLine;
+            WeatherProtocol wp = new WeatherProtocol();
             // Initiate conversation with client
-            outputLine = "Test-Protocol";
+            outputLine = "Start Server [" + serverSocket.getInetAddress() + "] " + "on port nr.: " + portNumber;
             out.println(outputLine);
 
             while ((inputLine = in.readLine()) != null) {
-                outputLine = inputLine;
+                outputLine = wp.handleInput(inputLine);
                 out.println(outputLine);
                 if (outputLine.equalsIgnoreCase("bye"))
                     break;
