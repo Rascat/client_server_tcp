@@ -14,11 +14,10 @@ public class WeatherProtocol {
 
     }
 
-    String handleInput(String input) {
+    String handleInput(String input, String apiKey) {
         // lets assume input is a valid city name
         String cityName = input;
         String countryId = "de";
-        String apiKey = "#";
         JSONObject result = sendOpenWeatherApiRequest(cityName, countryId, apiKey);
         JSONObject mainData = result.getJSONObject("main");
 

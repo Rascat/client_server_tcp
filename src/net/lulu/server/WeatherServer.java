@@ -11,6 +11,7 @@ public class WeatherServer {
 
     public static void main (String args[]) throws IOException {
         int portNumber = Integer.parseInt(args[0]);
+        String apiKey = args[1];
 
         try (
                 ServerSocket serverSocket = new ServerSocket(portNumber);
@@ -27,7 +28,7 @@ public class WeatherServer {
             out.println(outputLine);
 
             while ((inputLine = in.readLine()) != null) {
-                outputLine = wp.handleInput(inputLine);
+                outputLine = wp.handleInput(inputLine, apiKey);
                 out.println(outputLine);
                 if (outputLine.equalsIgnoreCase("bye"))
                     break;
