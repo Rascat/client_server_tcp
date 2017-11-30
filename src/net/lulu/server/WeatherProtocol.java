@@ -1,14 +1,12 @@
 package net.lulu.server;
 
 
-import org.json.JSONArray;
+import org.json.JSONException;
 import org.json.JSONObject;
 import java.io.*;
 import java.net.URL;
-import java.nio.charset.Charset;
-import java.nio.file.*;
 
-public class WeatherProtocol {
+class WeatherProtocol {
 
     WeatherProtocol() {
 
@@ -16,30 +14,29 @@ public class WeatherProtocol {
 
     String handleInput(String input, String apiKey) {
         // lets assume input is a valid city name
+
+        if (input.equals("bye")) {
+            return "bye";
+        }
         String cityName = input;
         String countryId = "de";
         JSONObject result = sendOpenWeatherApiRequest(cityName, countryId, apiKey);
-        JSONObject mainData = result.getJSONObject("main");
-
-        return Float.toString(convertKelvinToCelsius((Double) mainData.get("temp")));
-    }
-
-    public JSONArray getCityList(String filename, String encoding) {
-        Charset charset = Charset.forName(encoding);
-        File file = new File(filename);
-        StringBuilder json = new StringBuilder();
-        String line;
-        try (
-                BufferedReader br = Files.newBufferedReader(file.toPath(), charset)
-        ) {
-            while((line = br.readLine()) != null) {
-                json.append(line);
-            }
-        } catch (IOException ioe) {
-            ioe.printStackTrace();
+        JSONObject mainData;
+        Object tempData;
+        Object cityData;
+        try {
+            mainData = result.getJSONObject("main");
+            tempData = mainData.get("temp");
+            cityData = result.get("name");
+        } catch (JSONException je) {
+            je.printStackTrace();
+            return "Something went wrong please try again.";
         }
-        return new JSONArray(json.toString());
+        String temp = String.format("%.2f", convertKelvinToCelsius((Double) tempData));
+
+        return "In " + cityData.toString() + " ist es gerade " + temp + "C°";
     }
+
 
     private JSONObject sendOpenWeatherApiRequest(String cityName, String countryId, String apiKey) {
         StringBuilder json = new StringBuilder();
@@ -57,8 +54,19 @@ public class WeatherProtocol {
             in.close();
         } catch (IOException e) {
             e.printStackTrace();
+            json.append("{ \"stat\" : \"error\"}");
         }
+        System.out.println(json.toString());
         return new JSONObject(json.toString());
+    }
+
+    String sendGreeter()
+    {
+        return "Welcome to my weather service!%n" +
+                "This service is based on the client - server paradigm as specified in the TCP.%n" +
+                "You can type the name of most German cities in the prompt and the service%n" +
+                "will return either the current temperature in celsius or an error message.%n" +
+                "If you want to exit the program, just type \"bye\"";
     }
 
     private float convertKelvinToCelsius(double kelvin) {

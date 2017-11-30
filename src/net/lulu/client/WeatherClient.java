@@ -19,10 +19,13 @@ public class WeatherClient {
             String fromServer, fromUser;
             BufferedReader stdIn = new BufferedReader(new InputStreamReader(System.in));
 
-            while((fromServer = in.readLine()) != null) {
-                System.out.println("WeatherServer: " + fromServer);
-                if(fromServer.equals("bye"))
+
+            while ((fromServer = in.readLine()) != null) {
+                System.out.println("> " + fromServer.replaceAll("%n", "\n"));
+
+                if (fromServer.equals("bye"))
                     break;
+
 
                 fromUser = stdIn.readLine();
                 if (fromUser != null) {
@@ -30,6 +33,7 @@ public class WeatherClient {
                     out.println(fromUser);
                 }
             }
+
         }
     }
 }

@@ -24,7 +24,7 @@ public class WeatherServer {
             String inputLine, outputLine;
             WeatherProtocol wp = new WeatherProtocol();
             // Initiate conversation with client
-            outputLine = "Start Server [" + serverSocket.getInetAddress() + "] " + "on port nr.: " + portNumber;
+            outputLine = wp.sendGreeter();
             out.println(outputLine);
 
             while ((inputLine = in.readLine()) != null) {
