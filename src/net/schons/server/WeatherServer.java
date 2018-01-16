@@ -1,4 +1,4 @@
-package net.lulu.server;
+package net.schons.server;
 
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -7,9 +7,22 @@ import java.io.PrintWriter;
 import java.net.ServerSocket;
 import java.net.Socket;
 
+/**
+ * The WeatherServer is the the main server routine in this client/server application.
+ * It binds a ServerSocket to port nr. 5000 and waits for an incoming request from a WeatherClient.
+ * The server program uses an instance of WeatherProtocol to handle the communication between itself
+ * and the WeatherClient.
+ * Once the client sends a 'bye' string, the server routine will come to a halt.
+ */
 public class WeatherServer {
 
-    public static void main (String args[]) throws IOException {
+    /**
+     * Main method, implements server routine
+     * @param args [0]: the port number to which the server socket should be bound
+     *             [1]: a valid OWM api key
+     */
+    public static void main (String args[]) {
+
         int portNumber = Integer.parseInt(args[0]);
         String apiKey = args[1];
 
@@ -23,10 +36,12 @@ public class WeatherServer {
         ){
             String inputLine, outputLine;
             WeatherProtocol wp = new WeatherProtocol();
+
             // Initiate conversation with client
-            outputLine = wp.sendGreeter();
+            outputLine = wp.greeter();
             out.println(outputLine);
 
+            // Handle input from client and send a reply, until client sends 'bye'
             while ((inputLine = in.readLine()) != null) {
                 outputLine = wp.handleInput(inputLine, apiKey);
                 out.println(outputLine);

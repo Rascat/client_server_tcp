@@ -1,11 +1,21 @@
-package net.lulu.client;
+package net.schons.client;
 
 import java.io.*;
 import java.net.Socket;
 
+/**
+ * Client class that implements the client-part of 'client-server-paradigm'.
+ * Connects to a host with the provided host-, port-number.
+ * Takes input from user and outputs reply from server.
+ */
 public class WeatherClient {
 
-    public static void main(String[] args) throws IOException {
+    /**
+     * Main method, implements client routine.
+     * @param args [0]: name of the host the socket should connect to
+     *             [1]: number of the port the socket should connect to
+     */
+    public static void main(String[] args) {
         String hostName = args[0];
         int portNumber = Integer.parseInt(args[1]);
 
@@ -34,6 +44,8 @@ public class WeatherClient {
                 }
             }
 
+        } catch (IOException ioEx) {
+            System.out.println("Could not connect to server. Exit");
         }
     }
 }
