@@ -1,4 +1,4 @@
-package net.schons.client;
+package main.java.client;
 
 import java.io.*;
 import java.net.Socket;
@@ -18,6 +18,9 @@ public class WeatherClient {
     public static void main(String[] args) {
         String hostName = args[0];
         int portNumber = Integer.parseInt(args[1]);
+        System.out.println("WeatherClient has been initialized with the following configuration:\n" +
+                "Host Name: "+ hostName + "\n" +
+                "Port Number: " + portNumber + "\n");
 
         try (
                 Socket socket = new Socket(hostName, portNumber);
@@ -29,13 +32,11 @@ public class WeatherClient {
             String fromServer, fromUser;
             BufferedReader stdIn = new BufferedReader(new InputStreamReader(System.in));
 
-
             while ((fromServer = in.readLine()) != null) {
                 System.out.println("> " + fromServer.replaceAll("%n", "\n"));
 
                 if (fromServer.equals("bye"))
                     break;
-
 
                 fromUser = stdIn.readLine();
                 if (fromUser != null) {
@@ -43,7 +44,6 @@ public class WeatherClient {
                     out.println(fromUser);
                 }
             }
-
         } catch (IOException ioEx) {
             System.out.println("Could not connect to server. Exit");
         }

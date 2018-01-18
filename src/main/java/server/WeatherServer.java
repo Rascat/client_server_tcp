@@ -1,4 +1,4 @@
-package net.schons.server;
+package main.java.server;
 
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -9,7 +9,7 @@ import java.net.Socket;
 
 /**
  * The WeatherServer is the the main server routine in this client/server application.
- * It binds a ServerSocket to port nr. 5000 and waits for an incoming request from a WeatherClient.
+ * It binds a ServerSocket to the provided port and waits for an incoming request from a WeatherClient.
  * The server program uses an instance of WeatherProtocol to handle the communication between itself
  * and the WeatherClient.
  * Once the client sends a 'bye' string, the server routine will come to a halt.
@@ -25,6 +25,9 @@ public class WeatherServer {
 
         int portNumber = Integer.parseInt(args[0]);
         String apiKey = args[1];
+        System.out.println("WeatherServer has been initialized with the following configuration:\n" +
+                "Port Number: " + portNumber + "\n" +
+                "OWM Api Key: " + apiKey);
 
         try (
                 ServerSocket serverSocket = new ServerSocket(portNumber);

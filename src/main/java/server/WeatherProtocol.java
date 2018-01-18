@@ -1,4 +1,4 @@
-package net.schons.server;
+package main.java.server;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -26,7 +26,7 @@ class WeatherProtocol {
      * If the values can be retrieved, they are then used to construct a reply.
      *
      * @param input Input string from WeatherServer
-     * @param apiKey
+     * @param apiKey a valid OWM api key
      * @return Either a positive response containing the requested city name and temperature or a prompt to try again.
      */
     String handleInput(String input, String apiKey) {
@@ -62,7 +62,7 @@ class WeatherProtocol {
      * @param cityName the name of the city of which the weather data is requested
      * @param countryId the country id of the country in which the city is located
      * @param apiKey a valid OWM api key
-     * @return
+     * @return OWM-Api response
      */
     private JSONObject openWeatherApiRequest(String cityName, String countryId, String apiKey) {
         StringBuilder json = new StringBuilder();
@@ -94,9 +94,9 @@ class WeatherProtocol {
     String greeter()
     {
         return "Welcome to my weather service!%n" +
-                "This service is based on the client - server paradigm as specified in the TCP.%n" +
+                "This service is based on the client - server paradigm as specified in the TCP/IP suite.%n" +
                 "You can type the name of most german cities in the prompt and the service%n" +
-                "will return either the current temperature in celsius or an error message.%n" +
+                "will return either the current temperature of that city in celsius or an error message.%n" +
                 "If you want to exit the program, just type \"bye\"";
     }
 
